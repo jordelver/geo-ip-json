@@ -14,3 +14,9 @@ In `routes.rb`
       match "/geoip.json", :to => GeoIPJson::App.new
     end
 
+Download the GeoIP database file from MaxMind (http://www.maxmind.com/)
+
+  http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
+
+Put it in the root of your Rails app (configurable location is coming)
+
