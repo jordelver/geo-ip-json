@@ -1,0 +1,16 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    geoip (1.1.2)
+    minitest (3.0.0)
+    rack (1.4.1)
+    rack-test (0.6.1)
+      rack (>= 1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  geoip
+  minitest
+  rack-test
