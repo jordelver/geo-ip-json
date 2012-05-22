@@ -10,8 +10,6 @@ In `Gemfile`
 
 In `routes.rb`
 
-    require 'geo_ip_json'
-    
     <AppName>::Application.routes.draw do
       match "/geoip.json", :to => GeoIPJson::App.new
     end
