@@ -4,7 +4,7 @@ gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'rack/test'
-require_relative '../lib/geo_ip_json'
+require_relative '../lib/geo-ip-json'
 
 include Rack::Test::Methods
 
