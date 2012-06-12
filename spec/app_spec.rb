@@ -8,24 +8,34 @@ require_relative '../lib/geo-ip-json'
 
 include Rack::Test::Methods
 
-MOCK = MiniTest::Mock.new
+def app
+  @app
+end
 
 # Setup our rack app as we would with a config.ru file
-def app
-  Rack::Builder.new do
+def mock_app(options = {})
+
+  # Create a mock to pass to the app
+  mock = MiniTest::Mock.new
+  mock.expect(:country, { country_code2: options[:country] }, options[:ip])
+
+  builder = Rack::Builder.new do
     map '/geoip.json' do
       app = GeoIPJson::App.new
-      app.geo_ip = MOCK
+      app.geo_ip = mock
       run app
     end
   end
+
+  @app = builder.to_app
 end
 
 describe "GeoIP" do
 
   describe "valid IP address" do
+
     it "must return the country code" do
-      MOCK.expect :country, { country_code2: 'us' }, ["1.2.3.4"]
+      mock_app(:country => 'us', :ip => ['1.2.3.4'])
 
       get '/geoip.json?ip=1.2.3.4'
 
@@ -36,7 +46,7 @@ describe "GeoIP" do
     end
 
     it "must use the request IP if the ip parameter is missing" do
-      MOCK.expect :country, { country_code2: 'gb' }, ["4.5.6.7"]
+      mock_app(:country => 'gb', :ip => ['4.5.6.7'])
 
       get '/geoip.json', nil, { 'REMOTE_ADDR' => '4.5.6.7' }
 
@@ -48,8 +58,9 @@ describe "GeoIP" do
   end
 
   describe "invalid IP address" do
+
     it "must return return an empty string if the ip is bogus" do
-      MOCK.expect :country, { country_code2: '' }, ["not-an-ip-address"]
+      mock_app(:country => '', :ip => ['not-an-ip-address'])
 
       get '/geoip.json?ip=not-an-ip-address'
 
