@@ -9,7 +9,7 @@ require_relative '../lib/geo-ip-json'
 include Rack::Test::Methods
 
 def app
-  @app
+  Rack::Lint.new(@app)
 end
 
 # Setup our rack app as we would with a config.ru file
