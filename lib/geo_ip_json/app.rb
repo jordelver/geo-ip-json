@@ -9,9 +9,10 @@ module GeoIPJson
       request = Rack::Request.new(env)
 
       geo_data = lookup(ip_or_hostname(request))
+      country = geo_data.fetch(:country_code2, '').downcase.gsub(/--/, '')
 
       json = {
-        country: geo_data[:country_code2].downcase.gsub(/--/, '')
+        country: country
       }.to_json
 
       [200, {'Content-Type' => 'application/json'}, [json]]
@@ -34,7 +35,7 @@ module GeoIPJson
     def lookup(ip_or_hostname)
       geo_ip.country(ip_or_hostname).to_hash
     rescue SocketError
-      { country_code2: "" }
+      {}
     end
   end
 end
