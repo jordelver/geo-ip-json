@@ -20,6 +20,10 @@ Download the GeoIP database file from MaxMind (http://www.maxmind.com/)
 
 Put it in the root of your Rails app (configurable location is coming)
 
+## Testing
+
+Run `rake test` to run the tests. A `Guardfile` is present to use with `Guard`.
+
 ## Thanks!
 
 Steve England for the idea
